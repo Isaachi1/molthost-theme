@@ -294,8 +294,8 @@
     {{-- ═══ REGIONS — live world map fed by Server extensions ═══ --}}
     <section id="regions" class="py-16 md:py-28 border-b border-neutral/15">
         <div class="container">
-            <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-8 sm:gap-10 lg:gap-16 items-start">
-                <div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+                <div class="lg:col-span-5 min-w-0">
                     <div class="mh-eyebrow mb-3.5">
                         {{ __('molthost::messages.regions.eyebrow', ['count' => str_pad((string) max($regionsCount, 0), 2, '0', STR_PAD_LEFT)]) }}
                     </div>
@@ -341,7 +341,9 @@
                 </div>
 
                 {{-- Live world map (jsvectormap + Alpine) — height responsivo do componente --}}
-                <x-world-map :regions="$regions" />
+                <div class="lg:col-span-7 min-w-0 w-full">
+                    <x-world-map :regions="$regions" />
+                </div>
             </div>
         </div>
     </section>
