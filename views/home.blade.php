@@ -294,7 +294,7 @@
     {{-- ═══ REGIONS — live world map fed by Server extensions ═══ --}}
     <section id="regions" class="py-16 md:py-28 border-b border-neutral/15">
         <div class="container">
-            <div class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-8 md:gap-10 lg:gap-16 items-start">
+            <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-8 sm:gap-10 lg:gap-16 items-start">
                 <div>
                     <div class="mh-eyebrow mb-3.5">
                         {{ __('molthost::messages.regions.eyebrow', ['count' => str_pad((string) max($regionsCount, 0), 2, '0', STR_PAD_LEFT)]) }}
