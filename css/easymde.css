@@ -1,0 +1,39 @@
+/* EasyMDE Dark Theme Override */
+.EasyMDEContainer .CodeMirror {
+    background: hsl(0, 0%, 5%) !important;
+    color: #e0e0e0 !important;
+    border: 1px solid hsl(0, 0%, 15%) !important;
+    border-radius: 0.5rem !important;
+}
+
+.EasyMDEContainer .editor-toolbar {
+    background: hsl(0, 0%, 7%) !important;
+    border-color: hsl(0, 0%, 15%) !important;
+    border-radius: 0.5rem 0.5rem 0 0 !important;
+}
+
+.EasyMDEContainer .editor-toolbar button {
+    color: #aaa !important;
+}
+
+.EasyMDEContainer .editor-toolbar button:hover,
+.EasyMDEContainer .editor-toolbar button.active {
+    background: hsl(0, 0%, 12%) !important;
+    border-color: hsl(0, 0%, 20%) !important;
+}
+
+.EasyMDEContainer .editor-statusbar {
+    color: #666 !important;
+}
+
+.EasyMDEContainer .cm-s-easymde .cm-header {
+    color: white !important;
+}
+
+.EasyMDEContainer .cm-s-easymde .cm-link {
+    color: hsl(142, 100%, 45%) !important;
+}
+
+.EasyMDEContainer .editor-preview {
+    background: hsl(0, 0%, 5%) !important;
+}

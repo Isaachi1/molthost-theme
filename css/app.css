@@ -1,0 +1,332 @@
+/**
+ * Raze / MoltHost — Premium tech-dark Hosting UI
+ * Tailwind CSS v4 + MoltHost Design System
+ *
+ * Vibe: lobster red on warm near-black · Geist sans/mono · pixel-art mascot ·
+ * shells vocabulary · São Paulo first
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@plugin '@tailwindcss/forms' {
+    strategy: class;
+}
+
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source "../views";
+@source "../../../extensions/**/*.blade.php";
+@source "../../../extensions/Servers/Proxmox";
+@source "../../../extensions/Others/Pages";
+
+@theme {
+    --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+
+    --animate-wiggle: wiggle 1s ease-in-out infinite;
+    @keyframes wiggle {
+        0%, 100% { transform: rotate(-20deg); }
+        50% { transform: rotate(20deg); }
+    }
+
+    --animate-fade-in: fade-in 0.4s ease-out;
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    --animate-slide-up: slide-up 0.5s ease-out;
+    @keyframes slide-up {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    --animate-count-up: count-up 0.6s ease-out;
+    @keyframes count-up {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    --animate-pulse-slow: pulse-slow 3s ease-in-out infinite;
+    @keyframes pulse-slow {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+    }
+
+    --animate-caret: caret 1.1s steps(1) infinite;
+    @keyframes caret {
+        50% { opacity: 0; }
+    }
+
+    --animate-marquee: marquee 32s linear infinite;
+    @keyframes marquee {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+    }
+}
+
+@theme inline {
+    --color-primary: hsl(var(--c-primary));
+    --color-secondary: hsl(var(--c-secondary));
+    --color-neutral: hsl(var(--c-neutral));
+    --color-base: hsl(var(--c-base));
+    --color-muted: hsl(var(--c-muted));
+    --color-inverted: hsl(var(--c-inverted));
+    --color-success: hsl(var(--c-success));
+    --color-error: hsl(var(--c-error));
+    --color-warning: hsl(var(--c-warning));
+    --color-inactive: hsl(var(--c-inactive));
+    --color-info: hsl(var(--c-info));
+    --color-background: hsl(var(--c-background));
+    --color-background-secondary: hsl(var(--c-background-secondary));
+}
+
+@layer base {
+    *, ::after, ::before, ::backdrop, ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
+    html, body {
+        font-feature-settings: "ss01", "cv01", "cv11";
+        -webkit-font-smoothing: antialiased;
+        letter-spacing: -0.005em;
+    }
+
+    /* Tabular figures + zero-slash in monospace */
+    .font-mono, code, kbd, pre, samp {
+        font-feature-settings: "zero", "ss01";
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0;
+    }
+}
+
+/* ─── Utilities ──────────────────────────────────────── */
+
+@utility card {
+    @apply bg-background-secondary rounded-xl border border-neutral/20 text-base;
+}
+
+@utility container {
+    @apply max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* ─── Mobile-first ergonomics ─────────────────────────── */
+/* Tap targets at least 44px tall on small screens; we use min-h-[40px] on
+   interactive controls for the WCAG 2.5.5 recommendation. The safe area
+   below covers iOS notches and the home indicator. */
+@utility safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+@utility tap {
+    @apply min-h-[40px] min-w-[40px];
+}
+
+/* Avoid horizontal scroll caused by long words (descriptions, command
+   snippets, hostnames) escaping their flex/grid box on small screens.
+   `overflow-x: clip` preserves sticky on descendants (unlike hidden). */
+body {
+    overflow-x: clip;
+}
+
+@utility text-nowrap { text-wrap: nowrap; }
+@utility text-wrap   { text-wrap: wrap; }
+
+@utility glow-primary {
+    box-shadow: 0 0 32px hsl(var(--c-primary) / 0.30),
+                0 0 96px hsl(var(--c-primary) / 0.10);
+}
+
+@utility glow-primary-sm {
+    box-shadow: 0 0 14px hsl(var(--c-primary) / 0.20);
+}
+
+@utility glass {
+    background: hsl(var(--c-background-secondary) / 0.72);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+@utility grid-pattern {
+    background-image:
+        linear-gradient(hsl(var(--c-neutral) / 0.10) 1px, transparent 1px),
+        linear-gradient(90deg, hsl(var(--c-neutral) / 0.10) 1px, transparent 1px);
+    background-size: 48px 48px;
+}
+
+@utility stat-card {
+    @apply bg-background-secondary/80 border border-neutral/15 rounded-xl p-5 backdrop-blur-sm;
+}
+
+/* MoltHost-specific atoms */
+@utility mh-mono {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-feature-settings: "zero", "ss01";
+    letter-spacing: 0;
+}
+
+@utility mh-eyebrow {
+    @apply uppercase text-[11px] font-medium tracking-[0.12em] text-primary;
+    font-family: "Geist Mono", ui-monospace, monospace;
+}
+
+@utility mh-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: hsl(var(--c-primary) / 0.10);
+    color: hsl(var(--c-primary));
+    border: 1px solid hsl(var(--c-primary) / 0.28);
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+@utility mh-chip-neutral {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: hsl(var(--c-background-secondary));
+    color: hsl(var(--c-muted));
+    border: 1px solid hsl(var(--c-neutral) / 0.35);
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+@utility mh-card {
+    @apply bg-background-secondary border border-neutral/20 rounded-2xl;
+}
+
+@utility mh-card-elev {
+    background: hsl(var(--c-background-secondary));
+    border: 1px solid hsl(var(--c-neutral) / 0.30);
+    border-radius: 16px;
+    box-shadow:
+        0 30px 80px -20px hsl(0 0% 0% / 0.45),
+        0 0 0 1px hsl(var(--c-primary) / 0.06);
+}
+
+@utility mh-divider {
+    height: 1px;
+    background: hsl(var(--c-neutral) / 0.20);
+    border: 0;
+}
+
+/* Terminal panel — dark warm with traffic-light dots */
+@utility mh-terminal {
+    background: hsl(var(--c-background-secondary));
+    border: 1px solid hsl(var(--c-neutral) / 0.30);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+        0 30px 80px -20px hsl(0 0% 0% / 0.55),
+        0 0 0 1px hsl(var(--c-primary) / 0.05);
+}
+
+/* Pixel-art lobster mascot — 13×11 grid of squares.
+   Cells: a=mid, b=bright, d=deep, k=eye, e=empty */
+.mh-lobster-pixel {
+    --px: 4px;
+    display: grid;
+    grid-template-columns: repeat(13, var(--px));
+    grid-template-rows: repeat(11, var(--px));
+    gap: 0;
+    line-height: 0;
+}
+.mh-lobster-pixel i {
+    display: block;
+    width: var(--px);
+    height: var(--px);
+    background: hsl(var(--c-primary));
+}
+.mh-lobster-pixel i.d { background: hsl(var(--c-primary) / 0.65); filter: saturate(0.95) brightness(0.85); }
+.mh-lobster-pixel i.b { background: var(--mh-lobster-bright); }
+.mh-lobster-pixel i.e { background: transparent; }
+.mh-lobster-pixel i.k { background: hsl(22 14% 6%); }
+
+/* Big radial glow for hero CTA */
+@utility mh-glow-radial {
+    background: radial-gradient(ellipse at center top,
+        hsl(var(--c-primary) / 0.25) 0%,
+        hsl(var(--c-background)) 60%);
+}
+
+@import "./easymde.css";
+
+/*
+ * Safelist — keep Tailwind JIT from purging status classes used in dynamic
+ * Blade expressions like `bg-{{ $color }}/10`. These literal occurrences keep
+ * the variants resolvable across statuses.
+ *
+ * bg-success/10 bg-success/20 bg-success/30 border-success/20 border-success/30 text-success
+ * bg-warning/10 bg-warning/20 bg-warning/30 border-warning/20 border-warning/30 text-warning
+ * bg-error/10   bg-error/20   bg-error/30   border-error/20   border-error/30   text-error
+ * bg-info/10    bg-info/20    bg-info/30    border-info/20    border-info/30    text-info
+ * bg-inactive/10 bg-inactive/20 bg-inactive/30 border-inactive/20 border-inactive/30 text-inactive
+ */
+
+/* ─── Scrollbar ──────────────────────────────────────── */
+
+::-webkit-scrollbar {
+    background: transparent;
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsl(var(--c-primary) / 0.30);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--c-primary) / 0.55);
+}
+
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-corner { background: transparent; }
+
+/* ─── x-cloak ────────────────────────────────────────── */
+
+[x-cloak] { display: none !important; }
+
+/* ─── Selection ──────────────────────────────────────── */
+
+::selection {
+    background: hsl(var(--c-primary) / 0.30);
+    color: hsl(var(--c-base));
+}
+
+/* ─── Prose ──────────────────────────────────────────── */
+
+.prose {
+    --tw-prose-body: hsl(var(--c-base) / 0.72);
+    --tw-prose-headings: hsl(var(--c-base));
+    --tw-prose-links: hsl(var(--c-primary));
+    --tw-prose-bold: hsl(var(--c-base));
+    --tw-prose-code: hsl(var(--c-primary));
+}
+
+/* ─── Caret for terminal blocks ──────────────────────── */
+.mh-caret::after {
+    content: "";
+    display: inline-block;
+    width: 0.55em;
+    height: 1em;
+    background: hsl(var(--c-primary));
+    vertical-align: -0.15em;
+    margin-left: 2px;
+    animation: caret 1.1s steps(1) infinite;
+}
